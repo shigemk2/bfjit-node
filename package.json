@@ -1,0 +1,15 @@
+{
+  "name": "bfjit-node",
+  "version": "0.0.0",
+  "description": "",
+  "main": "bfjit.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shigemk2",
+  "license": "ISC",
+  "devDependencies": {
+    "ffi": "^1.2.7",
+    "ref": "^0.3.2"
+  }
+}
