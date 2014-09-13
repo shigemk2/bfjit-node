@@ -53,11 +53,7 @@ function main(src) {
       codes += "\xfe\x0b";                 // dec byte ptr[ebx|rbx]
       break;
     case ">":
-      if (arch == "ia32") {
-        codes += "\x43";                   // inc ebx
-      } else if (arch == "x64") {
-        codes += "\x48\xff\xc3";           // inc rbx
-      }
+      codes += "\x43";                   // inc ebx
       break;
     case "<":
       if (arch == "ia32") {
