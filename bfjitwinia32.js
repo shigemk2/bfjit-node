@@ -83,9 +83,6 @@ function main(src) {
       break;
     }
   }
-  if (arch == "x64") {
-    codes += "\x48\x83\xc4\x10";           // add rsp, 16
-  }
   codes += "\x5b";                         // pop ebx|rbx
   codes += "\xc3";                         // ret
 
