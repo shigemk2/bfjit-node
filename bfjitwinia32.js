@@ -93,7 +93,7 @@ function main(src) {
   var mem = new Buffer(30000);
   mem.fill(0, 0, 30000);
 
-  var libcName = os == "win32" ? "msvcrt" : "libc" + ffi.Library.EXT;
+  var libcName = "msvcrt";
   var dl = new ffi.DynamicLibrary(libcName, ffi.RTLD_NOW);
   var getchar = dl.get("getchar");
   var putchar = dl.get("putchar");
