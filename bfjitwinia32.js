@@ -42,19 +42,7 @@ function main(src) {
   var codes = "";
   var begin = [];
   codes += "\x53";                         // push ebx|rbx
-  if (arch == "ia32") {
-    codes += "\x8b\x5c\x24\x08";           // mov ebx, [esp+8]
-  } else if (arch == "x64") {
-    if (os == "win32") {
-      codes += "\x52";                     // push rdx
-      codes += "\x41\x50";                 // push r8
-      codes += "\x48\x89\xcb";             // mov rbx, rcx
-    } else {
-      codes += "\x56";                     // push rsi
-      codes += "\x52";                     // push rdx
-      codes += "\x48\x89\xfb";             // mov rbx, rdi
-    }
-  }
+  codes += "\x8b\x5c\x24\x08";           // mov ebx, [esp+8]
 
   for (var pc = 0; pc < src.length; pc++) {
     switch (src[pc]) {
