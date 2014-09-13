@@ -9,48 +9,24 @@ if (arch != "ia32" && arch != "x64") {
 }
 
 var jitalloc = (function() {
-  if (os == "win32") {
-    var kernel32 = ffi.Library("kernel32", {
-      "VirtualAlloc": ["pointer", ["pointer", "size_t", "int", "int"]],
-      "VirtualFree": ["bool", ["pointer", "int", "int"]],
-    });
+  var kernel32 = ffi.Library("kernel32", {
+    "VirtualAlloc": ["pointer", ["pointer", "size_t", "int", "int"]],
+    "VirtualFree": ["bool", ["pointer", "int", "int"]],
+  });
 
-    var MEM_COMMIT  = 0x1000;
-    var MEM_RELEASE = 0x8000;
-    var PAGE_EXECUTE_READWRITE = 0x40;
+  var MEM_COMMIT  = 0x1000;
+  var MEM_RELEASE = 0x8000;
+  var PAGE_EXECUTE_READWRITE = 0x40;
 
-    return function(size) {
-      var p = kernel32.VirtualAlloc(ref.NULL, size,
-                                    MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-      var ret = p.reinterpret(size);
-      ret.free = function() {
-        kernel32.VirtualFree(p, 0, MEM_RELEASE);
-      };
-      return ret;
+  return function(size) {
+    var p = kernel32.VirtualAlloc(ref.NULL, size,
+                                  MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+    var ret = p.reinterpret(size);
+    ret.free = function() {
+      kernel32.VirtualFree(p, 0, MEM_RELEASE);
     };
-  } else {
-    var libc = ffi.Library("libc", {
-      "mmap": ["pointer", ["pointer", "size_t", "int", "int", "int", "int64"]],
-      "munmap": ["int", ["pointer", "size_t"]],
-    });
-
-    var PROT_READ   = 1;
-    var PROT_WRITE  = 2;
-    var PROT_EXEC   = 4;
-    var MAP_PRIVATE = 2;
-    var MAP_ANON    = os == "linux" || os == "linux2" ? 0x20 : 0x1000;
-
-    return function(size) {
-      var p = libc.mmap(ref.NULL, size,
-                        PROT_READ | PROT_WRITE | PROT_EXEC,
-                        MAP_PRIVATE | MAP_ANON, -1, 0);
-      var ret = p.reinterpret(size);
-      ret.free = function() {
-        libc.munmap(p, size);
-      };
-      return ret;
-    };
-  }
+    return ret;
+  };
 })();
 
 // 32ビットの数字をリトルエンディアンに変換する
