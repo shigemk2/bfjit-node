@@ -78,17 +78,7 @@ function main(src) {
       codes += "\x83\xc4\x04";           // add esp, 4
       break;
     case ",":
-      if (arch == "ia32") {
-        codes += "\xff\x54\x24\x10";       // call [esp+16]
-      } else if (arch == "x64") {
-        if (os == "win32") {
-          codes += "\x48\x83\xec\x20";     // sub rsp, 32
-          codes += "\xff\x54\x24\x20";     // call [rsp+32]
-          codes += "\x48\x83\xc4\x20";     // add rsp, 32
-        } else {
-          codes += "\xff\x14\x24";         // call [rsp]
-        }
-      }
+      codes += "\xff\x54\x24\x10";       // call [esp+16]
       codes += "\x88\x03";                 // mov bytr ptr[ebx|rbx], al
       break;
     }
