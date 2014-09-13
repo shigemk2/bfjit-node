@@ -56,11 +56,7 @@ function main(src) {
       codes += "\x43";                   // inc ebx
       break;
     case "<":
-      if (arch == "ia32") {
-        codes += "\x4b";                   // dec ebx
-      } else if (arch == "x64") {
-        codes += "\x48\xff\xcb";           // dec rbx
-      }
+      codes += "\x4b";                   // dec ebx
       break;
     case "[":
       begin.push(codes.length);
