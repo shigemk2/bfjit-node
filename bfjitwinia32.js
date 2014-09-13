@@ -72,22 +72,10 @@ function main(src) {
       codes += "\xe9" + conv32(ad1 - ad2); // jmp near begin
       break;
     case ".":
-      if (arch == "ia32") {
-        codes += "\x0f\xb6\x03";           // movzx eax, byte ptr[ebx]
-        codes += "\x50";                   // push eax
-        codes += "\xff\x54\x24\x10";       // call [esp+16]
-        codes += "\x83\xc4\x04";           // add esp, 4
-      } else if (arch == "x64") {
-        if (os == "win32") {
-          codes += "\x48\x83\xec\x20";     // sub rsp, 32
-          codes += "\x0f\xb6\x0b";         // movzx ecx, byte ptr[rbx]
-          codes += "\xff\x54\x24\x28";     // call [rsp+40]
-          codes += "\x48\x83\xc4\x20";     // add rsp, 32
-        } else {
-          codes += "\x0f\xb6\x3b";         // movzx edi, byte ptr[rbx]
-          codes += "\xff\x54\x24\x08";     // call [rsp+8]
-        }
-      }
+      codes += "\x0f\xb6\x03";           // movzx eax, byte ptr[ebx]
+      codes += "\x50";                   // push eax
+      codes += "\xff\x54\x24\x10";       // call [esp+16]
+      codes += "\x83\xc4\x04";           // add esp, 4
       break;
     case ",":
       if (arch == "ia32") {
